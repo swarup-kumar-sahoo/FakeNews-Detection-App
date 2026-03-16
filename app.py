@@ -674,7 +674,6 @@ code, pre, .mono {{
     opacity: .5;
 }}
 
-/* ── Tone table ───────────────────────────────────────────── */
 .tone-row {{
     display: flex;
     gap: 10px;
@@ -696,7 +695,6 @@ code, pre, .mono {{
 }}
 .tone-val {{ flex: 1; color: {T["text2"]}; line-height: 1.5; }}
 
-/* ── Steps progress ───────────────────────────────────────── */
 .steps-wrap {{
     display: flex;
     gap: 0;
@@ -736,14 +734,12 @@ code, pre, .mono {{
     font-family: 'Space Mono', monospace;
 }}
 
-/* ── Divider ──────────────────────────────────────────────── */
 .fc-divider {{
     height: 1px;
     background: {T["border2"]};
     margin: 1.5rem 0;
 }}
 
-/* ── Input overrides ──────────────────────────────────────── */
 .stTextArea textarea {{
     background: {T["surface"]} !important;
     border: 1.5px solid {T["border"]} !important;
@@ -989,8 +985,8 @@ code, pre, .mono {{
 </style>
 """, unsafe_allow_html=True)
 
-# ── Constants ──────────────────────────────────────────────────────────────────
-BACKEND_URL = "http://localhost:8000"
+# Constants
+BACKEND_URL = "https://fakenews-detection-app-fdyt.onrender.com"
 
 SAMPLES = {
     "🌍 Climate Science":    "Scientists have confirmed that global temperatures have risen by approximately 1.1 degrees Celsius since the pre-industrial era, primarily due to greenhouse gas emissions from human activities. According to NASA and NOAA data, the last decade was the warmest on record. The IPCC report warns that without significant emissions reductions, temperatures could rise by 3 to 4 degrees by 2100, causing widespread flooding, droughts, and ecosystem collapse across multiple continents.",
