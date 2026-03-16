@@ -13,7 +13,7 @@ from typing import Optional
 from PIL import Image
 
 icon = Image.open("logo.png")
-# ── Page config ────────────────────────────────────────────────────────────────
+# Page config 
 st.set_page_config(
     page_title="FactCheck AI",
     page_icon=icon,
@@ -21,13 +21,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Theme init ─────────────────────────────────────────────────────────────────
+# Theme init 
 if "theme" not in st.session_state:
     st.session_state.theme = "dark"
 
 IS_DARK = st.session_state.theme == "dark"
 
-# ── Consolidated theme tokens ──────────────────────────────────────────────────
+# Consolidated theme tokens 
 if IS_DARK:
     T = {
         # backgrounds
@@ -135,12 +135,11 @@ CLAIM_COLORS = {
     "factual_assertion":  T["blue"],
 }
 
-# ── CSS ────────────────────────────────────────────────────────────────────────
+# CSS 
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 
-/* ── Reset & base ─────────────────────────────────────────── */
 *, *::before, *::after {{ box-sizing: border-box; }}
 
 html, body, [class*="css"] {{
@@ -164,13 +163,11 @@ code, pre, .mono {{
     max-width: 1280px !important;
 }}
 
-/* ── Scrollbar ────────────────────────────────────────────── */
 ::-webkit-scrollbar {{ width: 4px; height: 4px; }}
 ::-webkit-scrollbar-track {{ background: transparent; }}
 ::-webkit-scrollbar-thumb {{ background: {T["scrollbar"]}; border-radius: 4px; }}
 ::-webkit-scrollbar-thumb:hover {{ background: {T["scrollbar_h"]}; }}
 
-/* ── Header ───────────────────────────────────────────────── */
 .fc-header {{
     display: flex;
     align-items: center;
@@ -243,7 +240,6 @@ code, pre, .mono {{
 .pill-green  {{ color:{T["green"]}; background:{T["green_dim"]}; border-color:{T["green"]}33; }}
 .pill-amber  {{ color:{T["amber"]}; background:{T["amber_dim"]}; border-color:{T["amber"]}33; }}
 
-/* ── Verdict card ─────────────────────────────────────────── */
 .verdict-wrap {{
     border-radius: 16px;
     padding: 2rem 2.5rem;
@@ -325,7 +321,6 @@ code, pre, .mono {{
     transition: width 0.8s cubic-bezier(.4,0,.2,1);
 }}
 
-/* ── Metric cards ─────────────────────────────────────────── */
 .metrics-grid {{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -385,7 +380,6 @@ code, pre, .mono {{
     font-family: 'Space Mono', monospace;
 }}
 
-/* ── Section containers ───────────────────────────────────── */
 .fc-card {{
     background: {T["surface"]};
     border: 1px solid {T["border"]};
@@ -427,7 +421,6 @@ code, pre, .mono {{
     border-radius: 10px;
 }}
 
-/* ── Issue items ──────────────────────────────────────────── */
 .issue-card {{
     display: flex;
     gap: 10px;
@@ -470,7 +463,6 @@ code, pre, .mono {{
     opacity: 0.7;
 }}
 
-/* ── Claim items ──────────────────────────────────────────── */
 .claim-card {{
     padding: 11px 14px;
     border-radius: 10px;
@@ -513,7 +505,6 @@ code, pre, .mono {{
     border: 1px solid {T["amber"]}33;
 }}
 
-/* ── Text panels ──────────────────────────────────────────── */
 .text-panel {{
     background: {T["surface2"]};
     border: 1px solid {T["border2"]};
@@ -533,7 +524,6 @@ code, pre, .mono {{
     display: block;
 }}
 
-/* ── Coverage bars ────────────────────────────────────────── */
 .cov-item {{
     display: flex;
     align-items: center;
@@ -567,7 +557,6 @@ code, pre, .mono {{
     text-align: right;
 }}
 
-/* ── Keywords ─────────────────────────────────────────────── */
 .kw-wrap {{
     display: flex;
     flex-wrap: wrap;
@@ -592,7 +581,6 @@ code, pre, .mono {{
     color: {T["text3"]};
 }}
 
-/* ── Sources ──────────────────────────────────────────────── */
 .source-card {{
     background: {T["surface2"]};
     border: 1px solid {T["border2"]};
@@ -651,7 +639,6 @@ code, pre, .mono {{
     margin-top: 8px;
 }}
 
-/* ── Empty state ──────────────────────────────────────────── */
 .empty-state {{
     text-align: center;
     padding: 3rem 2rem;
@@ -775,7 +762,6 @@ code, pre, .mono {{
     box-shadow: 0 0 0 3px {T["cyan"]}15 !important;
 }}
 
-/* ── Primary button ───────────────────────────────────────── */
 .stButton > button {{
     background: {T["grad_accent"]} !important;
     color: #fff !important;
@@ -810,7 +796,6 @@ code, pre, .mono {{
     box-shadow: none !important;
 }}
 
-/* ── Tabs ─────────────────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {{
     background: {T["surface2"]} !important;
     border-radius: 10px !important;
@@ -836,13 +821,11 @@ code, pre, .mono {{
 }}
 .stTabs [data-baseweb="tab-panel"] {{ padding-top: 1rem !important; }}
 
-/* ── Progress ─────────────────────────────────────────────── */
 .stProgress > div > div > div {{
     background: {T["grad_accent"]} !important;
     border-radius: 4px !important;
 }}
 
-/* ── Expander ─────────────────────────────────────────────── */
 .streamlit-expanderHeader {{
     background: {T["surface2"]} !important;
     border: 1px solid {T["border"]} !important;
@@ -853,13 +836,11 @@ code, pre, .mono {{
     font-weight: 500 !important;
 }}
 
-/* ── Sidebar ──────────────────────────────────────────────── */
 [data-testid="stSidebar"] {{
     background: {T["surface"]} !important;
     border-right: 1px solid {T["border"]} !important;
 }}
 
-/* ── Sidebar buttons ──────────────────────────────────────── */
 [data-testid="stSidebar"] .stButton > button {{
     background: {T["surface2"]} !important;
     color: {T["text2"]} !important;
@@ -878,7 +859,6 @@ code, pre, .mono {{
     box-shadow: none !important;
 }}
 
-/* ── Sidebar status dot ───────────────────────────────────── */
 .status-row {{
     display: flex;
     align-items: center;
@@ -901,7 +881,6 @@ code, pre, .mono {{
     font-family: 'Space Mono', monospace;
 }}
 
-/* ── Sidebar section labels ───────────────────────────────── */
 .sb-label {{
     font-size: 0.62rem;
     font-weight: 700;
@@ -913,7 +892,6 @@ code, pre, .mono {{
     display: block;
 }}
 
-/* ── How it works ─────────────────────────────────────────── */
 .how-step {{
     display: flex;
     gap: 10px;
@@ -932,7 +910,6 @@ code, pre, .mono {{
 }}
 .how-text {{ font-size: 0.7rem; color: {T["text2"]}; line-height: 1.5; }}
 
-/* ── Word count hint ──────────────────────────────────────── */
 .word-hint {{
     font-size: 0.63rem;
     font-family: 'Space Mono', monospace;
@@ -940,7 +917,6 @@ code, pre, .mono {{
     margin-top: 5px;
 }}
 
-/* ── JSON block ───────────────────────────────────────────── */
 .json-block {{
     background: {T["surface2"]};
     border: 1px solid {T["border"]};
@@ -956,7 +932,6 @@ code, pre, .mono {{
     line-height: 1.6;
 }}
 
-/* ── Theme toggle button ──────────────────────────────────── */
 .toggle-btn > button {{
     background: {T["surface2"]} !important;
     border: 1px solid {T["border"]} !important;
@@ -975,7 +950,6 @@ code, pre, .mono {{
     box-shadow: none !important;
 }}
 
-/* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 768px) {{
     .block-container {{ padding: 1rem 0.75rem !important; }}
     .fc-header {{ padding: 1.25rem 1.25rem; flex-wrap: wrap; gap: 10px; }}
@@ -996,7 +970,7 @@ SAMPLES = {
     "💊 Miracle Cure":       "DOCTORS HATE THIS! A simple kitchen spice cures cancer better than chemotherapy with zero side effects! Big Pharma has suppressed this information for decades because it would destroy their trillion-dollar industry. Thousands of people have already been cured using this one natural remedy. Share this before it gets censored! The establishment doesn't want you healthy!",
 }
 
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# Helpers 
 def score_color(s: float) -> str:
     s = int(s)
     if IS_DARK:
@@ -1080,7 +1054,7 @@ def local_analyze(text: str) -> dict:
         "sources": [], "source_credibility": {"average_score":0}, "processing_time_ms": 280,
     }
 
-# ── Render functions ───────────────────────────────────────────────────────────
+# Render functions 
 
 def render_header():
     col_l, col_r = st.columns([4, 1])
@@ -1415,7 +1389,7 @@ def render_sidebar():
         return selected_sample, custom_query
 
 
-# ── MAIN ──────────────────────────────────────────────────────────────────────
+# MAIN 
 def main():
     render_header()
     selected_sample, custom_query = render_sidebar()
@@ -1424,7 +1398,7 @@ def main():
     if "result"     not in st.session_state: st.session_state.result = None
     if selected_sample: st.session_state.input_text = SAMPLES[selected_sample]
 
-    # ── Input area ─────────────────────────────────────────────────
+    # Input area 
     col_input, col_btn = st.columns([5, 1])
     with col_input:
         input_text = st.text_area(
@@ -1449,7 +1423,7 @@ def main():
             st.session_state.result = None
             st.rerun()
 
-    # ── Analysis ───────────────────────────────────────────────────
+    # Analysis 
     if analyze_clicked and input_text and input_text.strip():
         if len(input_text.split()) < 5:
             st.warning("Please enter at least 5 words to fact-check.")
@@ -1485,7 +1459,7 @@ def main():
                 result = local_analyze(input_text)
             st.session_state.result = result
 
-    # ── Results ────────────────────────────────────────────────────
+    # Results 
     if st.session_state.result:
         data = st.session_state.result
         st.markdown('<div class="fc-divider"></div>', unsafe_allow_html=True)
