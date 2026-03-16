@@ -10,11 +10,13 @@ import json
 import time
 import re
 from typing import Optional
+from PIL import Image
 
+icon = Image.open("logo.png")
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="FactCheck AI",
-    page_icon="🔍",
+    page_icon=icon,
     layout="wide",
     initial_sidebar_state="expanded",
 )
