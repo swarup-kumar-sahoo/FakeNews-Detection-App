@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FactCheck AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #458B73;
+  --secondary: #FFEDC7;
+  --bg: #f6f8f7;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.05);
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 280px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+    width: 32px;
+    height: 32px;
+}
+
+.sidebar p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f6f8f7, #eef3f1);
+}
+
+.header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  position: relative;
+  z-index: 10;
+}
+
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 16px;
+}
+
+.menu-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
+}
+
+.chat-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.message {
+  max-width: 75%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  line-height: 1.6;
+  font-size: 15px;
+  box-shadow: 0 4px 12px var(--shadow);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user {
+  align-self: flex-end;
+  background: var(--primary);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.bot {
+  align-self: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+
+.meta {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.score-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.5s ease-in-out;
+}
+
+.input-area {
+  padding: 24px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+textarea {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 15px;
+  resize: none;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(69, 139, 115, 0.1);
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #3a7a63;
+  transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.typing {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 14px 18px;
+}
+
+@media(max-width: 1024px) {
+    .sidebar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .menu-btn {
+        display: block;
+    }
+}
+
+@media(max-width: 768px) {
+    .message {
+        max-width: 90%;
+        font-size: 14px;
+    }
+    .input-area {
+        padding: 16px;
+    }
+    textarea, button {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="sidebar">
+    <div class="logo">
+        <img src="logo.png" alt="FactCheck AI Logo" class="logo-img">
+        <span>FactCheck AI</span>
+    </div>
+    <p>
+      Analyze claims and detect misinformation using intelligent scoring and verification techniques.
+    </p>
+  </div>
+
+  <div class="main">
+    <div class="header">
+        <button class="menu-btn" id="menu-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+        <span>Real-time Claim Analysis</span>
+    </div>
+
+    <div class="chat-container" id="chat"></div>
+
+    <div class="input-area">
+      <textarea id="input" rows="1" placeholder="Enter a claim or news text..."></textarea>
+      <button onclick="sendMessage()">Analyze</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const BACKEND = "https://fakenews-detection-app-fdyt.onrender.com/analyze";
+
+function getBadge(score) {
+  if (score > 70) return { text: "High Credibility", color: "#16a34a" };
+  if (score > 40) return { text: "Moderate", color: "#f59e0b" };
+  return { text: "Low Credibility", color: "#dc2626" };
+}
+
+function addMessage(content, type) {
+  const chat = document.getElementById('chat');
+  const msg = document.createElement('div');
+  msg.className = `message ${type}`;
+  msg.innerHTML = content;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function renderSources(sources) {
+  return sources.map(s => `
+    <div class="meta">
+      <strong>${s.index}. ${s.title}</strong><br>
+      <a href="${s.url}" target="_blank">${s.domain}</a><br>
+      <span>${s.credibility_note}</span>
+    </div>
+  `).join('');
+}
+
+function renderIssues(issues) {
+  if (!issues.length) return "<div class='meta'>No major issues detected</div>";
+  return issues.map(i => `
+    <div class="meta">• ${i.title || i}</div>
+  `).join('');
+}
+
+function renderBreakdown(b) {
+  return `
+    <div class="meta">
+      Evidence Coverage: ${b.evidence_coverage}<br>
+      Source Credibility: ${b.source_credibility}<br>
+      Tone Penalty: ${b.tone_penalty}<br>
+      Research Bonus: ${b.research_depth_bonus}<br>
+      Contradiction Penalty: ${b.contradiction_penalty}
+    </div>
+  `;
+}
+
+function renderTone(tone) {
+  return `
+    <div class="meta">
+      Severity: ${tone.severity}<br>
+      Emotional Score: ${tone.emotional_score}<br>
+      Summary: ${tone.tone_summary}
+    </div>
+  `;
+}
+
+function renderResearch(r) {
+  return `
+    <div class="meta">
+      Query: ${r.query_used}<br>
+      Total Sources: ${r.total_sources}<br>
+      Wikipedia: ${r.wikipedia_found}<br>
+      News: ${r.news_found}<br><br>
+      <strong>Summary:</strong><br>${r.combined_summary}
+    </div>
+  `;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+  input.style.height = 'auto';
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerText = 'Analyzing...';
+  document.getElementById('chat').appendChild(typing);
+
+  try {
+    const res = await fetch(BACKEND, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+
+    const data = await res.json();
+    typing.remove();
+
+    const badge = getBadge(data.truth_score);
+
+    const reply = `
+      <strong>${data.verdict}</strong><br>
+
+      <div class="badge" style="background:${badge.color}; color:white;">
+        ${data.confidence_label}
+      </div>
+
+      <div class="score-bar">
+        <div class="score-fill" style="width:${data.truth_score}%"></div>
+      </div>
+
+      <div class="meta"><strong>Score:</strong> ${data.truth_score}/100</div>
+
+      <hr>
+
+      <strong>Explanation</strong>
+      <div class="meta">${data.human_explanation}</div>
+
+      <hr>
+
+      <strong>Score Breakdown</strong>
+      ${renderBreakdown(data.score_breakdown)}
+
+      <hr>
+
+      <strong>Input Analysis</strong>
+      <div class="meta">
+        Words: ${data.input_analysis.word_count}<br>
+        Sentences: ${data.input_analysis.sentence_count}<br>
+        Summary: ${data.input_analysis.summary}
+      </div>
+
+      <strong>Tone Analysis</strong>
+      ${renderTone(data.input_analysis.tone)}
+
+      <hr>
+
+      <strong>Issues</strong>
+      ${renderIssues(data.issues)}
+
+      <hr>
+
+      <strong>Research Details</strong>
+      ${renderResearch(data.research)}
+
+      <hr>
+
+      <strong>Sources</strong>
+      ${renderSources(data.sources)}
+
+      <hr>
+
+      <div class="meta">
+        Processing Time: ${data.processing_time_ms} ms
+      </div>
+    `;
+
+    addMessage(reply, 'bot');
+
+  } catch (err) {
+    typing.innerText = 'Connection error. Please try again.';
+  }
+}
+</script>
+
+</body>
+</html>

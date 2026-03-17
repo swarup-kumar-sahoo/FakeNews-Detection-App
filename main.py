@@ -54,29 +54,6 @@ def analyze(req: AnalyzeRequest):
 
     return result
 
-
-@app.post("/summarize")
-def summarize_only(req: AnalyzeRequest):
-    from nlp_engine import Summarizer, Paraphraser
-    s = Summarizer()
-    p = Paraphraser()
-    summary = s.summarize(req.text, num_sentences=4)
-    paraphrase = p.paraphrase(summary["summary"])
-    simplified = p.simplify(req.text)
-    return {
-        "summary": summary,
-        "paraphrase": paraphrase,
-        "simplified": simplified
-    }
-
-
-@app.post("/keywords")
-def keywords(req: AnalyzeRequest):
-    kw = extract_keywords(req.text)
-    query = build_search_query(req.text)
-    return {"keywords": kw, "suggested_query": query}
-
-
 @app.get("/health")
 def health():
     return {"status": "ok", "version": "2.0.0"}
